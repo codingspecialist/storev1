@@ -23,6 +23,16 @@ public class LogRepository {
         Query query = em.createNativeQuery(q);
         List<Object[]> obsList = (List<Object[]>) query.getResultList(); // Object[] -> ROW
 
+        // Eye
+        // for (Object[] obs : obsList) {
+        // System.out.print(obs[0] + ",");
+        // System.out.print(obs[1] + ",");
+        // System.out.print(obs[2] + ",");
+        // System.out.print(obs[3] + ",");
+        // System.out.print(obs[4]);
+        // System.out.println("==================");
+        // }
+
         // ObjectMapping
         for (Object[] obs : obsList) {
             LogResponse.ListPage log = new LogResponse.ListPage(
@@ -30,6 +40,15 @@ public class LogRepository {
             logList.add(log);
         }
         return logList;
+    }
+
+    public void save(int storeId, int qty, int totalPrice, String buyer) {
+        Query query = em.createNativeQuery("insert into log_tb(store_id, qty, total_price, buyer) values(?,?,?,?)");
+        query.setParameter(1, storeId);
+        query.setParameter(2, qty);
+        query.setParameter(3, totalPrice);
+        query.setParameter(4, buyer);
+        query.executeUpdate();
     }
 
 }
