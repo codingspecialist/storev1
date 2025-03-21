@@ -34,16 +34,12 @@ public class StoreRepository {
     public Store findById(int id) {
         Query query = em.createNativeQuery("select * from store_tb where id = ?", Store.class);
         query.setParameter(1, id);
-        try {
-            return (Store) query.getSingleResult();
-        } catch (Exception e) { // NoResultException
-            return null;
-        }
+        return (Store) query.getSingleResult();
     }
 
     public List<Store> findAll() {
         // 조건 : 오브젝트 매핑은 @Entity가 붙어야지만 가능하다. (디폴트 생성자를 호출)
-        Query query = em.createNativeQuery("select * from store_tb order by id desc", Store.class);
+        Query query = em.createNativeQuery("select id, name, price, stock from store_tb order by id desc", Store.class);
         return query.getResultList();
     }
 
